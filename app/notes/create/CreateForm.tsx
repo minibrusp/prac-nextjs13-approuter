@@ -1,38 +1,36 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
-export default function EditForm({ note }) {
+export default function CreateForm() {
   const router = useRouter();
 
-  const [title, setTitle] = useState(note.title);
-  const [content, setContent] = useState(note.content);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const newNote = {
+    const note = {
       title,
       content,
     };
 
-    console.log(newNote);
-
     const response = await fetch(
-      'http://127.0.0.1:8090/api/collections/notes/records/' + note.id,
+      'http://127.0.0.1:8090/api/collections/notes/records',
       {
-        method: 'PATCH',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newNote),
+        body: JSON.stringify(note),
       }
     );
 
     if (response.ok) {
       // router.refresh();
-      router.push(`/notes/${note.id}`);
+      router.push('/notes');
     }
   };
 
@@ -57,8 +55,8 @@ export default function EditForm({ note }) {
           />
         </label>
         <button disabled={isLoading}>
-          {isLoading && <span>Editting...</span>}
-          {!isLoading && <span>Edit Note</span>}
+          {isLoading && <span>Adding...</span>}
+          {!isLoading && <span>Add Note</span>}
         </button>
       </form>
     </main>

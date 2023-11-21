@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 import EditForm from './EditForm';
+import { Suspense } from 'react';
+import Loading from '@/app/loading';
 
 export const dynamicParams = true;
 
@@ -33,12 +35,12 @@ async function getNote(noteId: string) {
 export default async function EditNote({ params }: { params: { id: string } }) {
   const note = await getNote(params.id);
 
-  console.log(note);
-
   return (
     <main>
       <h2>Edit Note - {note.id}</h2>
-      <EditForm note={note} />
+      <Suspense fallback={<Loading />}>
+        <EditForm note={note} />
+      </Suspense>
     </main>
   );
 }

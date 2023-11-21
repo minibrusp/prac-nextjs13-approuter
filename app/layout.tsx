@@ -3,7 +3,11 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import NavBar from './components/NavBar';
 
-const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'] });
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',

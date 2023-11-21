@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import styles from './NotesList.module.css';
-import ControlPanel from './ControlPanel';
 
 async function getNotes() {
   // imitate delay
@@ -24,7 +23,10 @@ export default async function NotesList() {
     <div className={styles.grid}>
       {notes?.map((note) => (
         <div key={note.id} className={styles.note}>
-          <ControlPanel id={note.id} />
+          <div className={styles.controls}>
+            <Link href={`/notes/${note.id}/edit`}>edit</Link>
+            <span>delete</span>
+          </div>
           <Link href={`/notes/${note.id}`}>
             <div>
               <h2 className={styles.title}>{note.title}</h2>
